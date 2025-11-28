@@ -216,6 +216,101 @@
     audio {
         display: none;
     }
+
+    /* ------------------------------------------- */
+/* MOBILE RESPONSIVE FIXES                     */
+/* ------------------------------------------- */
+@media (max-width: 768px) {
+
+    /* Stack playlist + player vertically */
+    .main-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    /* Playlist & player take full width */
+    .playlist-section,
+    .player-section {
+        width: 100%;
+        max-height: none;
+    }
+
+    /* Playlist scroll fix */
+    .playlist-section {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    /* Make current song image smaller */
+    .current-song img {
+        width: 150px;
+        height: 150px;
+    }
+
+    /* Header spacing for small screens */
+    .header {
+        padding: 20px 10px;
+    }
+
+    .header h1 {
+        font-size: 2.2em;
+    }
+
+    /* Song element spacing */
+    .song {
+        padding: 8px;
+    }
+
+    .song img {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* Reduce progress bar width so it fits */
+    .progress-container,
+    .time {
+        width: 95%;
+    }
+
+    /* Buttons wrap nicely */
+    .controls {
+        gap: 8px;
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+}
+
+/* Even smaller screens */
+@media (max-width: 480px) {
+
+    .current-song img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .header img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .header h1 {
+        font-size: 1.8em;
+    }
+
+    .song img {
+        width: 45px;
+        height: 45px;
+    }
+
+    button {
+        padding: 7px 10px;
+        font-size: 0.85em;
+    }
+}
+
 </style>
 
 </head>
