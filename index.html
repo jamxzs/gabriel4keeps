@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetic Beige Playlist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+    body {
+        font-family: 'Lato', sans-serif;
+        background-color: #ddc3b5; /* main background */
+        color: #5d4e37;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .header {
+        width: 100%;
+        background-color: #f3e1e1; /* header */
+        padding: 40px 20px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        border-bottom: 2px solid #f3e1e1;
+    }
+
+    .header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 3em;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .header p {
+        font-size: 1.2em;
+        margin: 10px 0;
+        font-style: italic;
+    }
+
+    .header img {
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+        object-fit: cover;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        margin-top: 20px;
+    }
+
+    .main-container {
+        display: flex;
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .playlist-section {
+        flex: 1;
+        background-color: #f7f2ec; /* playlist color */
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        max-height: 600px;
+        overflow-y: auto;
+        position: relative;
+    }
+
+    .playlist-section::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: radial-gradient(circle, rgba(210,180,140,0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        border-radius: 15px;
+        pointer-events: none;
+    }
+
+    .playlist-section h2 {
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .song {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #fffaf0;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .song:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .song img {
+        width: 60px;
+        height: 60px;
+        border-radius: 5px;
+        object-fit: cover;
+        margin-right: 15px;
+    }
+
+    .song-info h4 {
+        margin: 0 0 5px 0;
+        font-size: 1.1em;
+    }
+
+    .song-info p {
+        margin: 0;
+        font-size: 0.9em;
+        color: #8b7355;
+    }
+
+    .active {
+        border: 2px solid #d2b48c;
+        background-color: #f5deb3;
+    }
+
+    .player-section {
+        flex: 1;
+        background-color: #e8e0d5;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .current-song {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .current-song img {
+        width: 200px;
+        height: 200px;
+        border-radius: 10px;
+        object-fit: cover;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        margin-bottom: 15px;
+    }
+
+    .current-song h3 {
+        font-family: 'Playfair Display', serif;
+        margin: 0 0 5px 0;
+    }
+
+    .current-song p {
+        margin: 0;
+        color: #8b7355;
+    }
+
+    .controls {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    /* Updated buttons */
+    button {
+        padding: 10px 15px;
+        background-color: #c8a79a;  /* soft beige */
+        color: #5d463f;             /* warm brown text */
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1em;
+        font-weight: bold;
+        transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    }
+
+    button:hover {
+        background-color: #b58f82;  /* darker beige hover */
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Progress bar */
+    .progress-container {
+        width: 80%;
+        height: 10px;
+        background-color: #dcd3c0;
+        border-radius: 5px;
+        margin: 20px 0;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .progress {
+        height: 100%;
+        width: 0%;
+        background-color: #d2b48c;
+        border-radius: 5px;
+        transition: width 0.1s linear;
+    }
+
+    .time {
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        font-size: 0.9em;
+        color: #5d4e37;
+    }
+
+    audio {
+        display: none;
+    }
+</style>
+
+</head>
+<body>
+    <div class="header">
+        <h1>143</h1>
+        <p>being loved by you is a blessing</p>
+        <img src="images/cover.jpg" alt="Header Cover">
+    </div>
+
+    <div class="main-container">
+        <div class="playlist-section">
+            <h2>Playlist</h2>
+            <div id="playlist">
+                <!-- Songs (same as before) -->
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/lkca9dx5tm20x93l5i3se/Be-With-You.mp3?rlkey=f8dlfkbybrghgi0ztvgb079yc&st=or6duk6x&raw=1">
+                    <img src="images/be.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Be With You</h4>
+                        <p>The Ridleys</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/ic1sas94ls7f8mt5r9apv/Someday.mp3?rlkey=1csjy7rx1450iv3cqpkwgtmux&st=jgekmv09&raw=1">
+                    <img src="images/some.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Someday</h4>
+                        <p>The Ridleys</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/xuc60uyrotboc42g6f9u3/Jesse-Barrera-Jeremy-Passion-Constant-Acoustic-Lyric-Video.mp3?rlkey=c4ddzepnlsax6n9vsl81kx623&st=poeyas4y&raw=1">
+                    <img src="images/cons.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Constant</h4>
+                        <p>Jesse Barrera & Jeremy Passion</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/gyoh1s4acogx8xjirtb7m/H.E.R.-Best-Part-Lyrics-Ft.-Daniel-Caesar.mp3?rlkey=v2w9d2hjxxtvby0ykgsausybf&st=dn90f2jt&raw=1">
+                    <img src="images/best.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Best Part</h4>
+                        <p>Daniel Caesar ft. H.E.R.</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/xe3mpsn8tbm2eeovtyonc/Stephen-Sanchez-Until-I-Found-You-Lyrics.mp3?rlkey=eprk339fbr0rywl8jy45k5t33&st=a50ro23u&raw=1">
+                    <img src="images/found.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Until I Found You</h4>
+                        <p>Stephen Sanchez</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/p8f7w24bgbp9mialppfyt/Joji-Sanctuary-Lyrics.mp3?rlkey=uoqaulw07cnldkkb38bgam9m5&st=n4xwz78b&raw=1">
+                    <img src="images/san.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Sanctuary</h4>
+                        <p>Joji</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/8fya60zobyltjw063zy1z/JP-Saxe-The-Few-Things-with-Charlotte-Lawrence-Official-Audio.mp3?rlkey=owrpqinrcd3u68atzvkk42k4l&st=3xxz4yvp&raw=1">
+                    <img src="images/few.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>The Few Things</h4>
+                        <p>JP Saxe & Charlotte Lawrence</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/1st1lgc1cnmhr6l3uq5tv/The-Neighbourhood-Pretty-Boy-Lyrics.mp3?rlkey=ftcnrt4m2ep6dqbcqe5dey0vi&st=fj2o5q00&raw=1">
+                    <img src="images/pretty.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Pretty Boy</h4>
+                        <p>The Neighbourhood</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/99doxmt9vefkp31qau840/PUBLIC-Make-You-Mine-Official-Lyric-Video.mp3?rlkey=kwime0fo6vaijgcw38o5u0hku&st=dmmfevc0&raw=1">
+                    <img src="images/make.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Make You Mine</h4>
+                        <p>PUBLIC</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/ih7l3hr82fkqk31vuvrqf/boy-pablo-i-heart-u-Audio.mp3?rlkey=2qdqjc68rilbh2rauswchkx6d&st=08nss40h&raw=1">
+                    <img src="images/i.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>I ❤ You</h4>
+                        <p>Boy Pablo</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/p1083abbgxtt4r7rdj9cs/Steve-Lacy-Dark-Red-Lyrics.mp3?rlkey=w96tmt5qvlh38q98r3btv1ib4&st=xrdb75r2&raw=1">
+                    <img src="images/dark.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Dark Red</h4>
+                        <p>Steve Lacy</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/jj694ydsooy554z0d8gbh/Cults-Always-Forever.mp3?rlkey=q6s6zmc6azaxamwcz2uv9oju7&st=3rev1alf&raw=1">
+                    <img src="images/always.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Always Forever</h4>
+                        <p>Cults</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/cgqs29klo57qua6yf5xtt/The-Walters-I-Love-You-So.mp3?rlkey=uxbxwny7icov5wllyfslfb51z&st=l1yf20bq&raw=1">
+                    <img src="images/love.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>I Love You So</h4>
+                        <p>The Walters</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/nygo8b10gyh3iwjh1j735/HONNE-Day-1.mp3?rlkey=3ikbbad130wdawiahwta8vfdd&st=4kf0rrlk&raw=1">
+                    <img src="images/day.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Day 1</h4>
+                        <p>HONNE</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/v3wbsvcl4917nakz6ez04/Clairo-Flamin-hot-cheetos.mp3?rlkey=e76khthtr0zo0waz9myxzh52q&st=4vxaend0&raw=1">
+                    <img src="images/hot.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Flaming Hot Cheetos</h4>
+                        <p>Clairo</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/vqvgat5y2zphbgphij9q2/The-Smiths-Back-To-The-Old-House-Official-Audio.mp3?rlkey=z3307daqlbpn8y5k6s5uszzoe&st=rd1vodj3&raw=1">
+                    <img src="images/back.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Back to the Old House</h4>
+                        <p>The Smiths</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/qwhgzifzl4wonm806ieut/I-Don-t-Wanna-Be-Okay-Without-You.mp3?rlkey=okvitnb6ex0lxxh7upu5mq22t&st=d1v3yq3v&raw=1">
+                    <img src="images/dont.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>I Don’t Wanna Be Okay Without You</h4>
+                        <p>Charlie Burg</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/y34cywvklmiw6qdh9kvvj/Hold-Me-Down.mp3?rlkey=b7otso9xc0hfo80tuzu3g6445&st=ck91g5uh&raw=1">
+                    <img src="images/hold.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Hold Me Down</h4>
+                        <p>Daniel Caesar</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/gqu9su8vdce83m4vg6nvd/Goo-Goo-Dolls-Iris-xK4ZqrLys_k.mp3?rlkey=t4hraba8pqk4ip3f90uwcyesd&st=qmm0er9v&raw=1">
+                    <img src="images/iris.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Iris</h4>
+                        <p>Goo Goo Dolls</p>
+                    </div>
+                </div>
+                <div class="song" data-src="https://www.dropbox.com/scl/fi/fiu3ght286adotwa304mc/Frank-Ocean-Godspeed.mp3?rlkey=dlosnel6p8kug82l6l1d9q0at&st=kibyxsbk&raw=1">
+                    <img src="images/god.jpg" alt="Cover">
+                    <div class="song-info">
+                        <h4>Godspeed</h4>
+                        <p>Frank Ocean</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="player-section">
+            <div class="current-song">
+                <img id="current-cover" src="images/cover1.jpg" alt="Current Cover">
+                <h3 id="current-title">Song Title 1</h3>
+                <p id="current-artist">Artist 1</p>
+            </div>
+
+            <!-- Progress Bar + Time -->
+            <div class="progress-container" id="progress-container">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="time">
+                <span id="current-time">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+
+            <div class="controls">
+                <button id="prev">Prev</button>
+                <button id="play">Play</button>
+                <button id="pause">Pause</button>
+                <button id="stop">Stop</button>
+                <button id="next">Next</button>
+                <button id="shuffle">Shuffle</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio" controls></audio>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const songs = document.querySelectorAll('.song');
+        const currentCover = document.getElementById('current-cover');
+        const currentTitle = document.getElementById('current-title');
+        const currentArtist = document.getElementById('current-artist');
+        const progress = document.getElementById('progress');
+        const progressContainer = document.getElementById('progress-container');
+        const currentTimeEl = document.getElementById('current-time');
+        const durationEl = document.getElementById('duration');
+        let currentIndex = 0;
+        let isShuffled = false;
+        let originalOrder = Array.from(songs);
+
+        function loadSong(index) {
+            const song = songs[index];
+            audio.src = song.dataset.src;
+            currentCover.src = song.querySelector('img').src;
+            currentTitle.textContent = song.querySelector('h4').textContent;
+            currentArtist.textContent = song.querySelector('p').textContent;
+            songs.forEach(s => s.classList.remove('active'));
+            song.classList.add('active');
+        }
+
+        function playSong() { audio.play(); }
+        function pauseSong() { audio.pause(); }
+        function stopSong() { audio.pause(); audio.currentTime = 0; }
+
+        function nextSong() {
+            currentIndex = (currentIndex + 1) % songs.length;
+            loadSong(currentIndex);
+            playSong();
+        }
+        function prevSong() {
+            currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+            loadSong(currentIndex);
+            playSong();
+        }
+        function shuffleSongs() {
+            isShuffled = !isShuffled;
+            const playlist = document.getElementById('playlist');
+            if (isShuffled) {
+                [...songs].sort(() => Math.random() - 0.5).forEach(song => playlist.appendChild(song));
+            } else {
+                originalOrder.forEach(song => playlist.appendChild(song));
+            }
+            currentIndex = 0;
+            loadSong(currentIndex);
+        }
+
+        // Update progress bar
+        audio.addEventListener('timeupdate', () => {
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progress.style.width = `${progressPercent}%`;
+            updateTimeDisplay();
+        });
+
+        // Seek when clicking on progress bar
+        progressContainer.addEventListener('click', (e) => {
+            const width = progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            audio.currentTime = (clickX / width) * duration;
+        });
+
+        // Display duration when metadata loaded
+        audio.addEventListener('loadedmetadata', updateTimeDisplay);
+
+        function updateTimeDisplay() {
+            const current = formatTime(audio.currentTime);
+            const duration = formatTime(audio.duration);
+            currentTimeEl.textContent = current;
+            durationEl.textContent = duration;
+        }
+
+        function formatTime(time) {
+            if (isNaN(time)) return "0:00";
+            const minutes = Math.floor(time / 60);
+            const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+            return `${minutes}:${seconds}`;
+        }
+
+        songs.forEach((song, index) => {
+            song.addEventListener('click', () => {
+                currentIndex = index;
+                loadSong(currentIndex);
+                playSong();
+            });
+        });
+
+        document.getElementById('play').addEventListener('click', playSong);
+        document.getElementById('pause').addEventListener('click', pauseSong);
+        document.getElementById('stop').addEventListener('click', stopSong);
+        document.getElementById('next').addEventListener('click', nextSong);
+        document.getElementById('prev').addEventListener('click', prevSong);
+        document.getElementById('shuffle').addEventListener('click', shuffleSongs);
+
+        audio.addEventListener('ended', nextSong);
+        loadSong(currentIndex);
+    </script>
+</body>
+</html>
